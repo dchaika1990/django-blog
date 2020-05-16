@@ -1,0 +1,9 @@
+/!build/*
+/.idea/*
+!.gitignore
+
+#vebv
+/venv/*
+
+#test wordpress uploads
+/uploads/*
