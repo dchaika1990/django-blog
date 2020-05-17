@@ -11,7 +11,7 @@ urlpatterns = [
         name='post_list'
     ),
     path(
-        '<int:year>/<int:month>/<int:dat>/<slug:slug>',
+        '<int:year>/<int:month>/<int:day>/<slug:post>',
         views.post_detail,
         name='post_detail'
     ),
