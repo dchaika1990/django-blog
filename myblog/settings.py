@@ -123,7 +123,7 @@ STATIC_URL = '/static/'
 
 # Gmail SMTP setup settings
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'dchaika1990@gmail.com'
-EMAIL_HOST_PASSWORD = '4815162342a'
+EMAIL_HOST_USER = '@gmail.com'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
