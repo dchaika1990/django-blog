@@ -1,8 +1,8 @@
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404
-from .models import Post
+from .models import Post, Comment
 from django.views.generic import ListView
-from .forms import EmailPostForm
+from .forms import EmailPostForm, CommentForm
 
 
 # Create your views here.
@@ -24,10 +24,35 @@ def post_detail(request, year, month, day, post):
         publish__month=month,
         publish__day=day,
     )
-    return render(request, 'blog/post/detail.html', {'post': post})
+    # List active comments for this post
+    comments = post.comments.filter(active=True)
+    new_comment = None
+    comment_form = None
+    if request.method == Post:
+        # User sent comment
+        comment_form = CommentForm(data=request.Post)
+        if comment_form.is_valid():
+            # Create comment without saving in BD
+            new_comment = comment_form.save(commit=False)
+            # Link a comment to the current article
+            new_comment.post = post
+            # Save comment to BD
+            new_comment.save()
+        else:
+            comment_form = CommentForm()
+    return render(
+        request,
+        'blog/post/detail.html',
+        {
+            'post': post,
+            'comments': comments,
+            'new_comment': new_comment,
+            'comment_form': comment_form
+        }
+    )
 
 
-# Comments form
+# Share form
 def post_share(request, post_id):
     # Get post on id
     post = get_object_or_404(
