@@ -4,16 +4,45 @@
 {% endblock %}
 {% block content %}
     <h1>{{ post.title }}</h1>
-    {#  Show comment count  #}
-    {% with comments.count as tottal_comments %}
-         <h2>{{ tottal_comments }} comment{{ tottal_comments|pluralize }}</h2>
-    {% endwith %}
-    {#  Show comment count end  #}
+
     <p class="date">Published {{ post.publish|date:'d M Y' }} by {{ post.author }}</p>
     {{ post.body|linebreaks }}
+
+    {#  Show tags  #}
+    {% if post.tags.all %}
+        <p class="tags">Tags:
+            {% for tag in post.tags.all %}
+                <a href="{% url "blog:post_list_by_tag" tag.slug %}">{{ tag.name }}</a>
+                {% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+    {% endif %}
+    {#  Show tags end  #}
+
+    {#  Share  #}
     <p>
         <a href="{% url "blog:post_share" post.id %}">Share this post</a>
     </p>
+    {#  Share end  #}
+
+    {#  Show similar posts  #}
+    {% if similar_posts %}
+        <hr>
+        <h3>Similar posts</h3>
+        {% for post in similar_posts %}
+            <p>
+                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            </p>
+        {% endfor %}
+    {% endif %}
+    {#  Show similar posts end  #}
+
+    {#  Show comment count  #}
+    <hr>
+    {% with comments.count as tottal_comments %}
+         <h3>{{ tottal_comments }} comment{{ tottal_comments|pluralize }}</h3>
+    {% endwith %}
+    {#  Show comment count end  #}
 
     {#  Show comments  #}
     {% for comment in comments %}
