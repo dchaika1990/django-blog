@@ -4,9 +4,14 @@
 {% endblock %}
 {% block content %}
     <h1>My Blog</h1>
+
+    {#  Tags  #}
     {% if tag %}
         <h2>Posts tagged with "{{ tag.name }}"</h2>
     {% endif %}
+    {#  Tags end  #}
+
+    {#  Post  #}
     {% for post in posts %}
         <h2>
             <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
@@ -22,5 +27,10 @@
         </p>
         {% endif %}
     {% endfor %}
+    {#  Post end  #}
+
+    {#  Pagination  #}
     {% include 'pagination.html' with page=posts %}
+    {#  Pagination end  #}
+
 {% endblock %}
